@@ -58,9 +58,9 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
         $form->addInput(new Typecho_Widget_Helper_Form_Element_Radio('notifyBlogger', array(1 => '是', 0 => '否'), 1, '提醒博主', '是否提醒博主。'));
         $form->addInput(new Typecho_Widget_Helper_Form_Element_Radio('notifyGuest', array(1 => '是', 0 => '否'), 1, '提醒访客', '是否提醒访客（可以的话）。'));
         $form->addInput(new Typecho_Widget_Helper_Form_Element_Textarea('templateHost', NULL, file_get_contents(__DIR__.'/templateHost.html'), '向博主发信内容模板。', '模板中可以使用某些变量，变量需要使用 {{}} 括起来。
-            可用的变量有：post_title，post_permalink，post_author_name，post_author_mail，comment_content，comment_permalink，comment_author_name，comment_author_mail，comment_parent_content，comment_parent_author_name，comment_parent_author_mail，status，ip'));
+            可用的变量有：post_title，post_permalink，post_author_name，post_author_mail，comment_content，comment_permalink，comment_author_name，comment_author_mail，comment_parent_content，comment_parent_author_name，comment_parent_author_mail，status，ip，site_url，site_name，manage_url'));
         $form->addInput(new Typecho_Widget_Helper_Form_Element_Textarea('templateGuest', NULL, file_get_contents(__DIR__.'/templateGuest.html'), '向访客发信内容模板。', '模板中可以使用某些变量，变量需要使用 {{}} 括起来。
-            可用的变量有：post_title，post_permalink，post_author_name，post_author_mail，comment_content，comment_permalink，comment_author_name，comment_author_mail，comment_parent_content，comment_parent_author_name，comment_parent_author_mail，status，ip'));
+            可用的变量有：post_title，post_permalink，post_author_name，post_author_mail，comment_content，comment_permalink，comment_author_name，comment_author_mail，comment_parent_content，comment_parent_author_name，comment_parent_author_mail，status，ip，site_url，site_name，manage_url'));
     }
     
     /**
@@ -163,10 +163,12 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
             $body = str_replace(
                 array('{{post_title}}', '{{post_permalink}}', '{{post_author_name}}', '{{post_author_mail}}', 
                     '{{comment_content}}', '{{comment_permalink}}', '{{comment_author_name}}', '{{comment_author_mail}}', 
-                    '{{status}}', '{{ip}}'),
+                    '{{status}}', '{{ip}}',
+                    '{{site_name}}', '{{site_url}}', '{{manage_url}}'),
                 array($postObj->title, $postObj->permalink, $postObj->author->screenName, $postObj->author->mail,
                     $commentObj->text, $commentObj->permalink, $commentObj->author, $commentObj->mail,
-                    $stausArr[$commentObj->status], $commentObj->ip),
+                    $stausArr[$commentObj->status], $commentObj->ip,
+                    $options->title, $options->siteUrl, $options->adminUrl.'manage-comments.php'),
                 $pluginOptions->templateHost);
             if (!empty($parentCommentObj)) {
                 $body = str_replace(
@@ -199,11 +201,13 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
                 array('{{post_title}}', '{{post_permalink}}', '{{post_author_name}}', '{{post_author_mail}}', 
                     '{{comment_content}}', '{{comment_permalink}}', '{{comment_author_name}}', '{{comment_author_mail}}',
                     '{{comment_parent_content}}', '{{comment_parent_author_name}}', '{{comment_parent_author_mail}}',
-                    '{{status}}', '{{ip}}'),
+                    '{{status}}', '{{ip}}',
+                    '{{site_name}}', '{{site_url}}', '{{manage_url}}'),
                 array($postObj->title, $postObj->permalink, $postObj->author->screenName, $postObj->author->mail,
                     $commentObj->text, $commentObj->permalink, $commentObj->author, $commentObj->mail,
-                    $parentCommentObj->text, $parentCommentObj->name, $parentCommentObj->mail,
-                    $stausArr[$commentObj->status], $commentObj->ip),
+                    $parentCommentObj->text, $parentCommentObj->author, $parentCommentObj->mail,
+                    $stausArr[$commentObj->status], $commentObj->ip,
+                    $options->title, $options->siteUrl, $options->adminUrl.'manage-comments.php'),
                 $pluginOptions->templateGuest);
 
             self::send($mailTo, $name, $subject, $body);

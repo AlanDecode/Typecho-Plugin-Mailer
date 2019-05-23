@@ -1,8 +1,10 @@
-<p>《{{post_title}}》有了新评论，<b>{{comment_author_name}}</b>说：</p>
+<div style="font-weight:400;font-size:1.35em;color:#333;margin:10px 0;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,.08)"><a style="text-decoration:none;color:#333" href="{{site_url}}" target="_blank">{{site_name}}</a></div>
+<p><a href="{{post_permalink}}" target="_blank">《{{post_title}}》</a>有了新评论：</p>
 <p style="background-color: #EEE;border: 1px solid #DDD;padding: 20px;margin: 15px 0;">{{comment_content}}</p>
 <p style="background-color: #EEE;border: 1px solid #DDD;padding: 20px;margin: 15px 0;">
+来自：<b>{{comment_author_name}}</b><br>
 邮箱：<a href="mailto:{{comment_author_mail}}">{{comment_author_mail}}</a><br>
 IP：{{ip}}<br>
 状态：<b>{{status}}</b>
 </p>
-<p style="margin: 15px 0;"><a href="{{comment_permalink}}" target="_blank">查看评论</a> | <a href="" target="_blank">管理评论</a></p>
+<p style="margin: 15px 0;"><a href="{{comment_permalink}}" target="_blank">查看评论</a> | <a href="{{manage_url}}" target="_blank">管理评论</a></p>
