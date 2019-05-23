@@ -26,6 +26,12 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
         Typecho_Plugin::factory('Widget_Feedback')->finishComment = array('Mailer_Plugin', 'requestService');
         Typecho_Plugin::factory('Widget_Service')->sendMail = array('Mailer_Plugin', 'sendMail');
 
+        // 添加一列，存储是否接受回复提醒
+        $db = Typecho_Db::get();
+        $prefix = $db->getPrefix();
+        if (!array_key_exists('receiveMail', $db->fetchRow($db->select()->from('table.comments'))))
+            $db->query('ALTER TABLE `'. $prefix .'comments` ADD COLUMN `receiveMail` INT(10) DEFAULT 1;');
+
         return '请记得进入插件配置相关信息。';
     }
     
@@ -194,6 +200,12 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
             if ($parentCommentObj->mail == $commentObj->mail) return; // 自己回复自己，不用提醒
             if ($commentObj->status != 'approved') return; // 只提醒过审评论
 
+            $db = Typecho_Db::get();
+            $row = $db->fetchRow($db->select('receiveMail')
+                    ->from('table.comments')
+                    ->where('coid = ?', $parentCommentObj->coid));
+            if (!$row['receiveMail']) return; // 拒绝接收提醒
+
             $mailTo = $parentCommentObj->mail;
             $name = $parentCommentObj->author;
             $subject = '您在《'.$postObj->title.'》一文的评论有新回复啦！';
@@ -247,6 +259,17 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
      */
     public static function requestService($comment)
     {
+        $r = 0;
+        // 当前评论是否接受回复提醒
+        if (isset($_POST['receiveMail']) && 'yes' == $_POST['receiveMail']) {
+            $r = 1;
+        }
+        $db = Typecho_Db::get();
+        $prefix = $db->getPrefix();
+        $db->query($db->update('table.comments')
+            ->rows(array('receiveMail' => (int)$r))
+            ->where('coid = ?', $comment->coid));
+
         Helper::requestService('sendMail', $comment->coid);
     }
 

@@ -18,7 +18,14 @@
 
 ## 使用
 
-下载插件，上传至插件目录，后台启用后设置相关信息。
+下载插件，上传至插件目录，后台启用后设置相关信息。然后在博客评论区 `form` 元素中合适位置添加：
+
+```html
+<span>
+    <input aria-label="接收邮件通知" name="receiveMail" type="checkbox" value="yes" id="receiveMail" checked />
+    <label for="receiveMail"><strong>接收</strong>邮件通知</label>
+</span>
+```
 
 ## License
 
