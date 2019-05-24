@@ -10,7 +10,7 @@ require_once __DIR__ . '/PHPMailer.php';
  * @author      熊猫小A
  * @version     1.0.0
  * @dependence  17.11.15
- * @link        https://blog.imalan.cn
+ * @link        https://blog.imalan.cn/archives/349/
  */
 class Mailer_Plugin implements Typecho_Plugin_Interface
 {
@@ -18,7 +18,7 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
      * 激活插件方法,如果激活失败,直接抛出异常
      * 
      * @access public
-     * @return void
+     * @return string
      * @throws Typecho_Plugin_Exception
      */
     public static function activate()
@@ -228,6 +228,13 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
 
     /**
      * 发信
+     * 
+     * @access public
+     * @param string $addr 收件地址
+     * @param string $name 收件人名称
+     * @param string $subject 邮件标题
+     * @param string $body 邮件正文
+     * @return void
      */
     public static function send($addr, $name, $subject, $body) {
         $options = Helper::options();
