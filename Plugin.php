@@ -8,7 +8,7 @@ require_once __DIR__ . '/PHPMailer.php';
  * 
  * @package     Mailer
  * @author      熊猫小A
- * @version     1.0.0
+ * @version     1.0.1
  * @dependence  17.11.15
  * @link        https://blog.imalan.cn/archives/349/
  */
@@ -24,6 +24,7 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
     public static function activate()
     {
         Typecho_Plugin::factory('Widget_Feedback')->finishComment = array('Mailer_Plugin', 'requestService');
+        Typecho_Plugin::factory('Widget_Comments_Edit')->finishComment = array('Mailer_Plugin', 'requestService');
         Typecho_Plugin::factory('Widget_Service')->sendMail = array('Mailer_Plugin', 'sendMail');
 
         // 添加一列，存储是否接受回复提醒
@@ -266,16 +267,18 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
      */
     public static function requestService($comment)
     {
-        $r = 0;
-        // 当前评论是否接受回复提醒
-        if (isset($_POST['receiveMail']) && 'yes' == $_POST['receiveMail']) {
-            $r = 1;
+        if ($comment instanceof Widget_Feedback) {
+            $r = 0;
+            // 当前评论是否接受回复提醒
+            if (isset($_POST['receiveMail']) && 'yes' == $_POST['receiveMail']) {
+                $r = 1;
+            }
+            $db = Typecho_Db::get();
+            $prefix = $db->getPrefix();
+            $db->query($db->update('table.comments')
+                ->rows(array('receiveMail' => (int)$r))
+                ->where('coid = ?', $comment->coid));
         }
-        $db = Typecho_Db::get();
-        $prefix = $db->getPrefix();
-        $db->query($db->update('table.comments')
-            ->rows(array('receiveMail' => (int)$r))
-            ->where('coid = ?', $comment->coid));
 
         Helper::requestService('sendMail', $comment->coid);
     }
