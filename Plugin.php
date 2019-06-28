@@ -64,6 +64,7 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
         $form->addInput(new Typecho_Widget_Helper_Form_Element_Text('from', NULL, '', '发送人邮箱'));
         $form->addInput(new Typecho_Widget_Helper_Form_Element_Radio('notifyBlogger', array(1 => '是', 0 => '否'), 1, '提醒博主', '是否提醒博主。'));
         $form->addInput(new Typecho_Widget_Helper_Form_Element_Radio('notifyGuest', array(1 => '是', 0 => '否'), 1, '提醒访客', '是否提醒访客（可以的话）。'));
+        $form->addInput(new Typecho_Widget_Helper_Form_Element_Radio('synchronizedSend', array(0 => '否', 1 => '是'), 0, '强制同步发送', '强制不使用异步发送。如果频繁出现丢信的情况，可以打开这个选项。一般不用开启。'));
         $form->addInput(new Typecho_Widget_Helper_Form_Element_Textarea('templateHost', NULL, file_get_contents(__DIR__.'/templateHost.html'), '向博主发信内容模板。', '模板中可以使用某些变量，变量需要使用 {{}} 括起来。
             可用的变量有：post_title，post_permalink，post_author_name，post_author_mail，comment_content，comment_permalink，comment_author_name，comment_author_mail，comment_parent_content，comment_parent_author_name，comment_parent_author_mail，status，ip，site_url，site_name，manage_url'));
         $form->addInput(new Typecho_Widget_Helper_Form_Element_Textarea('templateGuest', NULL, file_get_contents(__DIR__.'/templateGuest.html'), '向访客发信内容模板。', '模板中可以使用某些变量，变量需要使用 {{}} 括起来。
@@ -280,7 +281,14 @@ class Mailer_Plugin implements Typecho_Plugin_Interface
                 ->where('coid = ?', $comment->coid));
         }
 
-        Helper::requestService('sendMail', $comment->coid);
+        $options = Helper::options();
+        $pluginOptions = $options->plugin('Mailer');
+
+        if ($pluginOptions->synchronizedSend) {
+            self::sendMail($comment->coid);
+        } else {
+            Helper::requestService('sendMail', $comment->coid);
+        }        
     }
 
     /**
