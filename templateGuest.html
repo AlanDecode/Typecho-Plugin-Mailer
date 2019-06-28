@@ -1,45 +1,27 @@
-<div style="background: white;
-  max-width: 550px;
-  width: 90%;
-  margin: 100px auto;
-  border-radius: 5px;
-  border:#e91e639e 1px solid;
-  overflow: hidden;
-  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.12);
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.18);">
-    <header style="overflow: hidden; max-width: 100%">
-        <a href="{{site_url}}" target="_blank">
-            <img style="width: 100%;" src="https://i.loli.net/2019/05/24/5ce79ad21ccdf18114.jpg">
-        </a>
-    </header>
-    <div style="padding: 5px 20px; max-width: 100%;">
-        <p style="position: relative;
-            color: white;
-            float: left;
-            background: #e91e63;
-            padding: 5px 30px;
-            margin: -25px auto 0 ;
-            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.30)">Mail</p>
-        <br>
-        <p style="font-size: 14px;">您好，<b>{{comment_parent_author_name}}</b>。</p>
-        <p style="font-size: 14px;">您在文章<a href="{{post_permalink}}" target="_blank">《{{post_title}}》</a>上发表的评论:</p>
+<div style="width: calc(100% - 24px);
+max-width: 450px;
+margin: 32px auto;
+border: 1px solid rgba(0,0,0,0.1);
+border-radius: 4px;">
+    <div style="padding: 5px 20px;">
+        <p>您好，<b>{{comment_parent_author_name}}</b>。</p>
+        <p>您在文章<a style="text-decoration: none;" href="{{post_permalink}}" target="_blank">《{{post_title}}》</a>上发表的评论:</p>
         <p
             style="border-bottom:#ddd 1px solid;border-left:#ddd 1px solid;padding-bottom:20px;background-color:#eee;margin:15px 0px;padding-left:20px;padding-right:20px;border-top:#ddd 1px solid;border-right:#ddd 1px solid;padding-top:20px">
             {{comment_parent_content}}</p>
-        <p style="font-size: 14px;">收到了来自 <b>{{comment_author_name}}</b> 的回复：</p>
+        <p>收到了来自 <b>{{comment_author_name}}</b> 的回复：</p>
         <p
             style="border-bottom:#ddd 1px solid;border-left:#ddd 1px solid;padding-bottom:20px;background-color:#eee;margin:15px 0px;padding-left:20px;padding-right:20px;border-top:#ddd 1px solid;border-right:#ddd 1px solid;padding-top:20px">
             {{comment_content}}</p>
         <hr>
-        <div style="max-width: 100%; text-align: center;"><a style="text-transform: uppercase;
+        <div style="text-align: center;"><a style="text-transform: uppercase;
   text-decoration: none;
-  font-size: 14px;
   border: 2px solid #6c7575;
   color: #2f3333;
   padding: 10px;
   display: inline-block;
   margin: 10px auto 0;
-  " target="_blank" href="{{comment_permalink}}">查看回复的完整内容</a></div>
+  " target="_blank" href="{{comment_permalink}}">查看回复</a></div>
         <br>
         <p style="font-size: 14px;text-align: center;">(本邮件为系统自动发送，请勿直接回复。tip:图片显示不了的添加信任即可! 欢迎再次光临<a
                 style="text-decoration: none;color: #e91e63" target="_blank"

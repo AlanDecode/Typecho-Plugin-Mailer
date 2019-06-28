@@ -1,23 +1,22 @@
-<div style="max-width: 550px; 
-    width: 90%;
-    height: auto;
-    border-radius: 5px;
-    margin:0 auto;
-    border:1px solid #ffb0b0;
-    box-shadow: 0px 0px 20px #888888;
-    position: relative;">
-    <div style="max-width: 100%; background-image: url(https://i.loli.net/2019/05/24/5ce79ad21ccdf18114.jpg);width:550px;height: 250px;background-size: cover;background-repeat: no-repeat;border-radius: 5px 5px 0px 0px;"></div>
-    <div style="max-width: 100%; background-color:white;line-height:180%;padding:0 15px 12px;width:520px;margin:10px auto;color:#555555;font-family:'Century Gothic','Trebuchet MS','Hiragino Sans GB',微软雅黑,'Microsoft Yahei',Tahoma,Helvetica,Arial,'SimSun',sans-serif;font-size:12px;margin-bottom: 0px;">
-        <h2 style="border-bottom:1px solid #DDD;font-size:14px;font-weight:normal;padding:13px 0 10px 8px;"><span style="color: #12ADDB;font-weight: bold;">&gt; </span>您的文章<a style="text-decoration:none;color: #12ADDB;" href="{{post_permalink}}" target="_blank">《{{post_title}}》</a>有了新的回复耶~</h2>
-        <div style="padding:0 12px 0 12px;margin-top:18px">
-        <p><b>{{comment_author_name}}</b> 给您的评论：</p>
-        <p style="background-color: #f5f5f5;border: 0px solid #DDD;padding: 10px 15px;margin:18px 0">{{comment_content}}</p>
-        <p>其他信息：</p>
-        <p style="background-color: #f5f5f5;border: 0px solid #DDD;padding: 10px 15px;margin:18px 0">IP：{{ip}}<br />邮箱：<a href="mailto:{{comment_author_mail}}">{{comment_author_mail}}</a><br />状态：{{status}} [<a href="{{manage_url}}" target="_blank">管理评论</a>]</p>
-        </div>
-    </div>
-    <a style="text-decoration: none;color: rgb(255, 255, 255);width: 40%;text-align: center;background-color: rgb(255, 114, 114);height: 40px;line-height: 40px;box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);display: block;margin: auto;" href="{{comment_permalink}}" target="_blank">查看回复的完整内容</a>
-    <div style="max-width: 100%; color:#8c8c8c;;font-family: 'Century Gothic','Trebuchet MS','Hiragino Sans GB',微软雅黑,'Microsoft Yahei',Tahoma,Helvetica,Arial,'SimSun',sans-serif;font-size: 10px;width: 100%;text-align: center;">
-        <p>©2017-2019 Copyright {{site_name}}</p>
-    </div>
+<div style="width: calc(100% - 24px);
+max-width: 450px;
+margin: 32px auto;
+border: 1px solid rgba(0,0,0,0.1);
+border-radius: 4px;
+padding: 0 12px;">
+
+<p><h4>来自 <a style="text-decoration: none;" href="{{post_permalink}}">《{{post_title}}》</a> 的新评论</h4></p>
+
+<p style="padding: 12px;
+background: #efefef;
+border-radius: 4px;">{{comment_content}}</p>
+
+<p>
+来自：<a style="text-decoration: none;" href="mailto:{{comment_author_mail}}">{{comment_author_name}}</a><br>
+IP：{{ip}}<br>
+状态：{{status}}<br>
+</p>
+
+<p><a style="text-decoration: none;" href="{{comment_permalink}}">查看评论</a> | <a style="text-decoration: none;" href="{{manage_url}}">管理评论</a></p>
+
 </div>
